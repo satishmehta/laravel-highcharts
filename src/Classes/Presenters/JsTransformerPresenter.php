@@ -14,12 +14,15 @@ class JsTransformerPresenter
     public $series = [];
     public $chart = [];
     public $colors = [];
+    public $coloraxis = [];
     public $credits = [];
+    public $tooltip = [];
     public $container = 'container';
 
     public function __contruct()
     {
         $this->transform = '';
+        $this->transformMap = '';
     }
 
     public function encode_title()
@@ -101,6 +104,22 @@ class JsTransformerPresenter
         return $this;
     }
 
+    public function encode_coloraxis()
+    {
+        $data = $this->coloraxis;
+        $this->coloraxis = !empty($data) ? 'colorAxis: '.json_encode($data).',' : null;
+
+        return $this;
+    }
+
+    public function tooltip()
+    {
+        $data = $this->tooltip;
+        $this->tooltip = !empty($data) ? 'tooltip: '.json_encode($data).',' : null;
+
+        return $this;
+    }
+
     public function credits()
     {
         $data = $this->credits;
@@ -136,6 +155,8 @@ class JsTransformerPresenter
         $this->encode_chart();
         $this->encode_colors();
         $this->credits();
+        $this->tooltip();
+        $this->encode_coloraxis();
 
         $allString = $this->title.
         $this->subtitle.
@@ -146,12 +167,53 @@ class JsTransformerPresenter
         $this->series.
         $this->chart.
         $this->colors.
-        $this->credits;
+        $this->credits.
+        $this->tooltip.
+        $this->coloraxis;
 
         $allString = substr($allString, 0, -1);
         $allString = $this->replacer($allString);
         $generate = '<script type="text/javascript">';
         $generate .= 'Highcharts.chart({'.$allString.'});';
+        $generate .= '</script>';
+
+        return $generate;
+    }
+
+
+    public function transformMap()
+    {
+        $this->encode_title();
+        $this->encode_sub_title();
+        $this->encode_y_axis();
+        $this->encode_x_axis();
+        $this->encode_legend();
+        $this->encode_plot_options();
+        $this->encode_series();
+        $this->encode_chart();
+        $this->encode_colors();        
+        $this->credits();
+        $this->tooltip();
+        $this->encode_coloraxis();
+
+        $allString = $this->title.
+        $this->subtitle.
+        $this->yAxis.
+        $this->xAxis.
+        $this->legend.
+        $this->plotOptions.
+        $this->series.
+        $this->chart.
+        $this->colors.
+        $this->credits.
+        $this->tooltip.
+        $this->coloraxis;
+        
+
+        $allString = substr($allString, 0, -1);
+        $allString = $this->replacer($allString);
+        $generate = '<script type="text/javascript">';
+        $generate .= 'Highcharts.mapChart({'.$allString.'});';
         $generate .= '</script>';
 
         return $generate;

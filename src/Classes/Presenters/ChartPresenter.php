@@ -11,11 +11,17 @@ class ChartPresenter
     public function __construct()
     {
         $this->display = '';
+        $this->displayMap = '';
         $this->js = new InitJsPresenter();
         $this->js->highchart = config('highchart.series_label_js');
         $this->js->seriesLabel = config('highchart.highchart_js');
         $this->js->exporting = config('highchart.exporting_js');
         $this->js->exportData = config('highchart.export_data_js');
+
+        $this->js->heatmap = config('highchart.heatmap_js');
+        $this->js->map = config('highchart.map_js');
+        $this->js->worldmap = config('highchart.worldmap_js');
+
         $this->container = new ContainerPresenter();
         $this->transform = new JsTransformerPresenter();
         $this->title = [];
@@ -45,6 +51,27 @@ class ChartPresenter
     public function export_data_js($bool = true)
     {
         $this->js->exportData = $bool;
+
+        return $this;
+    }
+
+    public function export_heatmap_js($bool = true)
+    {
+        $this->js->heatmap = $bool;
+
+        return $this;
+    }
+
+    public function export_map_js($bool = true)
+    {
+        $this->js->map = $bool;
+
+        return $this;
+    }
+
+    public function export_worldmap_js($bool = true)
+    {
+        $this->js->worldmap = $bool;
 
         return $this;
     }
@@ -127,6 +154,13 @@ class ChartPresenter
         return $this;
     }
 
+    public function coloraxis($series = [])
+    {
+        $this->transform->coloraxis = $series;
+
+        return $this;
+    }
+
     public function credits($credits = [])
     {
         $this->transform->credits = $credits;
@@ -134,9 +168,23 @@ class ChartPresenter
         return $this;
     }
 
+    public function tooltip($tooltip = [])
+    {
+        $this->transform->tooltip = $tooltip;
+
+        return $this;
+    }
+
     public function getTransform()
     {
         $this->display .= $this->transform->transform();
+
+        return $this;
+    }
+
+    public function getTransformMap()
+    {
+        $this->displayMap .= $this->transform->transformMap();
 
         return $this;
     }
@@ -156,5 +204,15 @@ class ChartPresenter
         $this->display = null;
 
         return $display;
+    }
+
+    public function displayMap()
+    {
+        $this->getInitJs();
+        $this->getTransformMap();
+        $displayMap = $this->displayMap;
+        $this->displayMap = null;
+
+        return $displayMap;
     }
 }

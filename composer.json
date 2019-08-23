@@ -1,13 +1,13 @@
 {
-    "name": "muhamadrezaar/highcharts",
-    "description": "Laravel Highcarts Packages",
+    "name": "satishmehta/highcharts",
+    "description": "PHP-Laravel5 Highcarts Packages",
     "type": "library",
     "license": "MIT",
     "keywords" : ["laravel" , "highcharts","packages"],
     "authors": [
         {
-            "name": "Muhamad Reza Abdul Rohim",
-            "email": "reza.wikrama3@gmail.com"
+            "name": "Satish Mehta",
+            "email": "mehtasatishdutt@gmail.com"
         }
     ],
     "minimum-stability": "stable",
