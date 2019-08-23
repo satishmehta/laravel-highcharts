@@ -1,6 +1,6 @@
 {
     "name": "satishmehta/highcharts",
-    "description": "PHP-Laravel5 Highcarts Packages",
+    "description": "PHP-Laravel5 Highcharts",
     "type": "library",
     "license": "MIT",
     "keywords" : ["laravel" , "highcharts","packages"],
